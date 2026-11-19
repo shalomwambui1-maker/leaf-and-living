@@ -1,0 +1,47 @@
+/* Admin page styles.
+   Colors come from the brief. If the leader makes shared CSS variables,
+   we can swap these for his variables later. */
+
+.admin-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #24352b;
+}
+
+.admin-page h1 {
+  font-family: Georgia, serif;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.admin-btn {
+  background: #28513b;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 4px;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+
+.admin-btn.small {
+  padding: 5px 10px;
+  margin-right: 6px;
+}
+
+.admin-btn.danger {
+  background: #b86c4b;
+}
+
+.admin-error {
+  color: #b00020;
+}

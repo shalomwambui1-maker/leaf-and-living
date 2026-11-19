@@ -1,3 +1,4 @@
+import "../styles/admin.css";
 import { Link } from "react-router-dom";
 
 // Admin page (/admin)
