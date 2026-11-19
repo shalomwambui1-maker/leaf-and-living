@@ -1,8 +1,32 @@
 import { Link } from "react-router-dom";
 
 // Admin page (/admin)
-// products comes from App (from the useProducts hook)
-function Admin({ products }) {
+// Props come from App (from the useProducts hook):
+// products, loading, loadError, refreshProducts
+function Admin({ products, loading, loadError, refreshProducts }) {
+  // while products are loading
+  if (loading) {
+    return (
+      <div className="admin-page">
+        <h1>Admin Portal</h1>
+        <p>Loading products...</p>
+      </div>
+    );
+  }
+
+  // if loading failed, show an error and a Retry button
+  if (loadError) {
+    return (
+      <div className="admin-page">
+        <h1>Admin Portal</h1>
+        <p className="admin-error">Could not load products. Please try again.</p>
+        <button className="admin-btn" onClick={refreshProducts}>
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className="admin-page">
       <div className="admin-header">
