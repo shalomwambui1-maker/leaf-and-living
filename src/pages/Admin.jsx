@@ -1,13 +1,39 @@
+import { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import ConfirmDialog from "../components/ConfirmDialog";
 import "../styles/admin.css";
-import { Link } from "react-router-dom";
 
 // Admin page (/admin)
 // Props come from App (from the useProducts hook):
-// products, loading, loadError, refreshProducts
-function Admin({ products, loading, loadError, refreshProducts }) {
-  // Delete button - the confirmation will be added later
+// products, loading, loadError, refreshProducts, deleteProduct
+function Admin({ products, loading, loadError, refreshProducts, deleteProduct }) {
+  const location = useLocation();
+
+  // success message sent from the Add/Edit pages
+  const [message, setMessage] = useState(location.state?.message || "");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [deleting, setDeleting] = useState(false);
+
+  // Delete button: open the confirmation
   function handleDeleteClick(product) {
-    console.log("Delete clicked for", product.name);
+    setMessage("");
+    setErrorMessage("");
+    setProductToDelete(product);
+  }
+
+  // "Yes, delete" button
+  async function handleConfirmDelete() {
+    const product = productToDelete;
+    setDeleting(true);
+    try {
+      await deleteProduct(product.id);
+      setMessage(`${product.name} was deleted`);
+    } catch (error) {
+      setErrorMessage("Could not delete the product. Please try again.");
+    }
+    setDeleting(false);
+    setProductToDelete(null);
   }
 
   // while products are loading
@@ -41,6 +67,9 @@ function Admin({ products, loading, loadError, refreshProducts }) {
           + Add Product
         </Link>
       </div>
+
+      {message && <p className="admin-success">{message}</p>}
+      {errorMessage && <p className="admin-error">{errorMessage}</p>}
 
       {/* empty state */}
       {products.length === 0 ? (
@@ -89,6 +118,16 @@ function Admin({ products, loading, loadError, refreshProducts }) {
             ))}
           </tbody>
         </table>
+      )}
+
+      {/* confirmation popup */}
+      {productToDelete && (
+        <ConfirmDialog
+          productName={productToDelete.name}
+          onConfirm={handleConfirmDelete}
+          onCancel={() => setProductToDelete(null)}
+          deleting={deleting}
+        />
       )}
     </div>
   );
