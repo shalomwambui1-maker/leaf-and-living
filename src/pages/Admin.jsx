@@ -36,7 +36,39 @@ function Admin({ products, loading, loadError, refreshProducts }) {
         </Link>
       </div>
 
-      <p>Total products: {products.length}</p>
+      {/* empty state */}
+      {products.length === 0 ? (
+        <p>No products yet. Click "Add Product" to create one.</p>
+      ) : (
+        <table className="admin-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Care level</th>
+              <th>Price (KES)</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product) => (
+              <tr key={product.id}>
+                <td>
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="admin-thumb"
+                  />
+                </td>
+                <td>{product.name}</td>
+                <td>{product.category}</td>
+                <td>{product.careLevel}</td>
+                <td>{product.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }
